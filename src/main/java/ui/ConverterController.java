@@ -6,14 +6,15 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import logic.CurrencyConverter;
+import org.controlsfx.control.SearchableComboBox;
 
 public class ConverterController {
     @FXML
-    private TextField amountField;
+    private javafx.scene.control.TextField amountField;
     @FXML
-    private ComboBox fromCurrencyBox;
+    private SearchableComboBox<String> fromCurrencyBox;
     @FXML
-    private ComboBox<String> toCurrencyBox;
+    private SearchableComboBox<String> toCurrencyBox;
     @FXML
     private Label resultLabel;
 
@@ -38,6 +39,7 @@ public class ConverterController {
         String[] currencies = converter.getCurrencies();
         fromCurrencyBox.getItems().addAll(currencies);
         toCurrencyBox.getItems().addAll(currencies);
+
     }
     //button click
     @FXML
@@ -46,6 +48,11 @@ public class ConverterController {
             double amount = Double.parseDouble(amountField.getText());
             String from = fromCurrencyBox.getValue().toString();
             String to = toCurrencyBox.getValue();
+
+            if (from == null || to == null) {
+                resultLabel.setText("Please select both currencies.");
+                return;
+            }
 
             double result = converter.convert(from, to, amount);
 
@@ -68,4 +75,5 @@ public class ConverterController {
         resultLabel.setStyle("-fx-text-fill: black;");
         resultLabel.setText(result);
     }
+
 }

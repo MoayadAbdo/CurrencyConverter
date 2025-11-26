@@ -25,13 +25,17 @@ public class CurrencyConverter {
 
             HttpResponse<String> response =
                     client.send(request, HttpResponse.BodyHandlers.ofString());
-
+//            System.out.println(response.body());
             //JSON --> MAP
             Map<String,Object> json = gson.fromJson(response.body(), Map.class);
             Map<String,Double> rates = (Map<String, Double>) json.get("rates");
+            System.out.println(rates);
+            //from -> USD
+            //USD -> to
 
-            double rate = rates.get(to);
-            return amount*rate;
+            double rate1 = rates.get(from);
+            double rate2 =  rates.get(to);
+            return amount*(rate2/rate1);
         }
         catch(Exception e){
             e.printStackTrace(); // to know where the error occured
